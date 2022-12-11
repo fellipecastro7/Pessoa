@@ -71,3 +71,27 @@ ostream &operator<<(ostream &out, const Empregador &empregador) {
     
     empregador.printContratados();
 }
+
+bool Empregador::operator==(const Empregador &outroEmpregador) const {
+  if(this->areaDeAtuacao != outroEmpregador.areaDeAtuacao) {
+    return false;
+  }
+
+  if(this->contato != outroEmpregador.contato) {
+    return false;
+  }
+
+  if(this->numContratados != outroEmpregador.numContratados) {
+    return false;
+  }
+
+  if(this->contratados.size() != outroEmpregador.contratados.size()) {
+    return false;
+  }
+
+  return true;
+}
+
+bool Empregador::operator!=(const Empregador &outroEmpregador) const {
+  return !(*this == outroEmpregador);
+}

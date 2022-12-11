@@ -58,5 +58,8 @@ int main() {
   //cout << "\n" << *empregadorTeste << "\n";
   empregadorTeste->demiteTrabalhador();
 
+  //Empregador *empregadorTeste2 = new Empregador(*empregadorTeste);
+  //cout << (*empregadorTeste == *empregadorTeste2);
+
   return 0;
 }

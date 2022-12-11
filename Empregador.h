@@ -21,6 +21,9 @@ class Empregador:public Pessoa {
         void demiteTrabalhador();
         void printContratados() const;
 
+        bool operator==(const Empregador &) const;
+        bool operator!=(const Empregador &) const;
+
     private:
         string areaDeAtuacao;
         string contato;
