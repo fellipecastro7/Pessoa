@@ -18,6 +18,7 @@ class Empregador:public Pessoa {
         ~Empregador();
 
         void contrataTrabalhador(const Trabalhador &);
+        void demiteTrabalhador();
         void printContratados() const;
 
     private:

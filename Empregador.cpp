@@ -51,6 +51,17 @@ void Empregador::printContratados() const {
     }
 }
 
+void Empregador::demiteTrabalhador() {
+    for(int i = 0; i < contratados.size(); i++) {
+        if(contratados[i]->getHorasDeTrabalhoSemanais() < 44) {
+            cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " demitido! Horas de trabalho semanais realizadas: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
+
+            delete contratados[i];
+            numContratados--;
+        }
+    }
+}
+
 ostream &operator<<(ostream &out, const Empregador &empregador) {
     out << "\n- INFORMAÇÕES SOBRE O EMPREGADOR -\n";
     out << static_cast <Pessoa> (empregador) << "\n";

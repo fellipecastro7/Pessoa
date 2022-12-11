@@ -55,7 +55,8 @@ int main() {
 
   empregadorTeste->contrataTrabalhador(*trabalhadorTeste);
   empregadorTeste->contrataTrabalhador(*trabalhadorTeste2);
-  cout << *empregadorTeste << "\n";
-  
+  //cout << "\n" << *empregadorTeste << "\n";
+  empregadorTeste->demiteTrabalhador();
+
   return 0;
 }
