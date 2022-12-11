@@ -6,19 +6,19 @@ using std::cout;
 using std::cin;
 
 Trabalhador::Trabalhador()
-:profissao(""), salario(0), salarioPorHora(0), horasDeTrabalhoMensais(0), horasDeTrabalhoSemanais(0), vinculoEmpregaticio("")
+:profissao(""), salario(0), salarioPorHora(0), horasDeTrabalhoMensais(0), horasDeTrabalhoSemanais(0), vinculoEmpregaticio(""), anosDeContribuicao(0), aposentado(false)
 {
 
 }
 
-Trabalhador::Trabalhador(const Pessoa &pessoaOut)
-:Pessoa(pessoaOut), profissao(""), salario(0), salarioPorHora(0), horasDeTrabalhoMensais(0), horasDeTrabalhoSemanais(0), vinculoEmpregaticio("")
+Trabalhador::Trabalhador(string nome, string sobrenome, string sexo, const Data &dataOut)
+:Pessoa(nome, sobrenome, sexo, dataOut), profissao(""), salario(0), salarioPorHora(0), horasDeTrabalhoMensais(0), horasDeTrabalhoSemanais(0), vinculoEmpregaticio(""), anosDeContribuicao(0), aposentado(false)
 {
 
 }
 
 Trabalhador::Trabalhador(const Trabalhador &outroTrabalhador)
-:Pessoa(outroTrabalhador), profissao(outroTrabalhador.profissao), salario(outroTrabalhador.salario), salarioPorHora(outroTrabalhador.salarioPorHora), horasDeTrabalhoMensais(outroTrabalhador.horasDeTrabalhoMensais), horasDeTrabalhoSemanais(outroTrabalhador.horasDeTrabalhoSemanais), vinculoEmpregaticio(outroTrabalhador.vinculoEmpregaticio)
+:Pessoa(outroTrabalhador), profissao(outroTrabalhador.profissao), salario(outroTrabalhador.salario), salarioPorHora(outroTrabalhador.salarioPorHora), horasDeTrabalhoMensais(outroTrabalhador.horasDeTrabalhoMensais), horasDeTrabalhoSemanais(outroTrabalhador.horasDeTrabalhoSemanais), vinculoEmpregaticio(outroTrabalhador.vinculoEmpregaticio), anosDeContribuicao(outroTrabalhador.anosDeContribuicao), aposentado(outroTrabalhador.aposentado)
 {
 
 }
@@ -55,7 +55,8 @@ float Trabalhador::calculaSalarioPorHora(float salario1) {
 void Trabalhador::perguntaVinculoEmpregaticio() {
     string opcao;
 
-    cout << "\nO trabalhador possui vinculo empregatício?[S/N] ";
+    cout << "- Cadastro de trabalhador -\n";
+    cout << "O trabalhador possui vinculo empregatício?[S/N] ";
     cin >> opcao;
 
     while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
@@ -72,6 +73,48 @@ void Trabalhador::perguntaVinculoEmpregaticio() {
     }
 
     cout << "\n";
+}
+
+void Trabalhador::aposentar() {
+    string opcao;
+
+    cout << "Trabalhador -> Deseja se aposentar? [S/N] ";
+    cin >> opcao;
+
+    while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
+        cout << "Deseja se aposentar? [S/N] ";
+        cin >> opcao;
+    }
+
+    if(opcao == "n" || opcao == "N") {
+        aposentado = false;
+    }
+
+    if(opcao == "S" || opcao == "s") {
+        if(calculaTempoDeTrabalho() < 35) {
+            cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
+            aposentado = false;
+        }
+
+        else {
+            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
+            aposentado = true;
+        }
+    }
+}
+
+int Trabalhador::calculaTempoDeTrabalho() {
+    return anosDeContribuicao;
+}
+
+void Trabalhador::setAnosDeContribuicao(int anosDeContribuicao1) {
+    if(anosDeContribuicao1 <= 0) {
+        anosDeContribuicao1 = 0;
+
+        return;
+    }
+
+    anosDeContribuicao = anosDeContribuicao1;
 }
 
 void Trabalhador::setProfissao(string profissao1) {
@@ -114,52 +157,10 @@ string Trabalhador::getVinculoEmpregaticio() const {
     return vinculoEmpregaticio;
 }
 
-ostream &operator<<(ostream &out, const Trabalhador &trabalhador) {
-    out << "\n- INFORMAÇÕES SOBRE O TRABALHADOR -\n";
-    out << static_cast <Pessoa> (trabalhador) << "\n";
-    out << "Possui vínculo empregatício? " << trabalhador.vinculoEmpregaticio << "\n";
-    out << "Profissão: " << trabalhador.profissao << "\n";
-    
-    if(trabalhador.vinculoEmpregaticio == "Não") {
-        out << "Salário: R$" << trabalhador.salario << "\n";
-    }
-
-    else {
-        out << "Horas de trabalho mensais: " << trabalhador.horasDeTrabalhoMensais << " horas\n";
-        out << "Horas de trabalho semanais: " << trabalhador.horasDeTrabalhoSemanais << " horas\n";
-        out << "Salário: R$" << trabalhador.salario << "\n";
-        out << "Salário por hora: R$" << trabalhador.salarioPorHora << "\n";
-    }
+int Trabalhador::getAnosDeContribuicao() const {
+    return anosDeContribuicao;
 }
 
-bool Trabalhador::operator==(const Trabalhador &outroTrabalhador) const {
-  if(this->getProfissao() != outroTrabalhador.getProfissao()) {
-    return false;
-  }
-
-  if(this->getSalario() != outroTrabalhador.getSalario()) {
-    return false;
-  }
-
-  if(this->getVinculoEmpregaticio() != outroTrabalhador.getVinculoEmpregaticio()) {
-    return false;
-  }
-
-  if(this->horasDeTrabalhoMensais != outroTrabalhador.horasDeTrabalhoMensais) {
-    return false;
-  }
-
-  if(this->horasDeTrabalhoSemanais!= outroTrabalhador.horasDeTrabalhoSemanais) {
-    return false;
-  }
-
-  if(this->salarioPorHora != outroTrabalhador.salarioPorHora) {
-    return false;
-  }
-
-  return true;
-}
-
-bool Trabalhador::operator!=(const Trabalhador &outroTrabalhador) const {
-  return !(*this == outroTrabalhador);
+bool Trabalhador::getAposentado() const {
+    return aposentado;
 }

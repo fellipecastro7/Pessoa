@@ -2,6 +2,7 @@
 #define PROPRIETARIO_H
 
 #include "Trabalhador.h"
+#include "Inquilino.h"
 
 #include <iostream>
 #include <string>
@@ -17,6 +18,8 @@ typedef struct casa {
     double comprimento;
     double altura;
     double area;
+
+    double getArea() const;
 } Casa;
 
 class Proprietario:public Trabalhador {
@@ -24,23 +27,27 @@ class Proprietario:public Trabalhador {
 
     public:
         Proprietario();
-        Proprietario(string, const Trabalhador &);
+        Proprietario(string, string, string, string, int, const Data & = Data(5, 7, 2015));
         Proprietario(const Proprietario &);
         ~Proprietario();
 
-        double calculaArea();
         void adicionaCasa(const Casa &);
+        void adicionaInquilino(const Inquilino &);
         void printCasasAlugadas() const;
+        void aposentar();
+        int calculaTempoDeTrabalho();
 
         bool operator==(const Proprietario &) const;
         bool operator!=(const Proprietario &) const;
 
     private:
+        int numCasasPossuidas;
         string nacionalidade;
-        Data ultimaCasaAlugada;
         vector <Casa *> casasAlugadas;
-        vector <string *> inquilinosCasas;
+        vector <Inquilino *> inquilinos;
         int numCasasAlugadas;
+        int anosDeContribuicao;
+        bool aposentado;
 };
 
 #endif

@@ -9,8 +9,6 @@ using std::string;
 using std::ostream;
 
 class Pessoa {
-  friend ostream &operator<<(ostream &, const Pessoa &);
-
   public:
     Pessoa();
     Pessoa(string, string, string, const Data & = Data(5, 7, 2015));
@@ -20,8 +18,12 @@ class Pessoa {
 
     void setNomeCompleto(string, string);
     string getNomeCompleto() const;
+    string getSexo() const;
+    Data getDataNascimento() const;
     int calculaAnoAtual() const;
     int calculaIdade() const;
+    virtual void aposentar() = 0;
+    virtual int calculaTempoDeTrabalho() = 0;
 
   private:
     string nome;

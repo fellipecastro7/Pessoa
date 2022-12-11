@@ -9,26 +9,25 @@
 using std::vector;
 
 class Empregador:public Pessoa {
-    friend ostream &operator<<(ostream &, const Empregador &);
-
     public:
         Empregador();
-        Empregador(string, string, const Pessoa &);
+        Empregador(string, string, string, const Data & = Data(5, 7, 2015));
         Empregador(const Empregador &);
         ~Empregador();
 
         void contrataTrabalhador(const Trabalhador &);
         void demiteTrabalhador();
         void printContratados() const;
-
-        bool operator==(const Empregador &) const;
-        bool operator!=(const Empregador &) const;
+        virtual void contratar() = 0;
+        virtual void demitir() = 0;
 
     private:
         string areaDeAtuacao;
         string contato;
         vector <Trabalhador *> contratados;
         int numContratados;
+        int anosDeContribuicao;
+        bool aposentado;
 };
 
 #endif

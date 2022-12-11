@@ -52,6 +52,14 @@ string Pessoa::getNomeCompleto() const {
   return nomeCompleto;
 }
 
+string Pessoa::getSexo() const {
+  return sexo;
+}
+
+Data Pessoa::getDataNascimento() const {
+  return dataNascimento;
+}
+
 int Pessoa::calculaAnoAtual() const {
     struct tm *local;
     time_t t;
@@ -71,15 +79,4 @@ int Pessoa::calculaIdade() const {
     idade = calculaAnoAtual() - dataNascimento.ano;
 
     return idade;
-}
-
-ostream &operator<<(ostream &out, const Pessoa &pessoa) {
-  out << "Nome: " << pessoa.getNomeCompleto() << "\n";
-  out << "Sexo: " << pessoa.sexo << "\n";
-  out << "Data de nascimento: ";
-  pessoa.dataNascimento.print();
-  out << "\n";
-  out << "Idade: " << pessoa.calculaIdade() << " anos";
-
-  return out;
 }

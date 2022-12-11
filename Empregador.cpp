@@ -4,6 +4,7 @@
 #include <iostream>
 
 using std::cout;
+using std::cin;
 
 Empregador::Empregador()
 :areaDeAtuacao(""), contato(""), numContratados(0)
@@ -11,8 +12,8 @@ Empregador::Empregador()
 
 }
 
-Empregador::Empregador(string areaDeAtuacao1, string contato1, const Pessoa &pessoaOut)
-:Pessoa(pessoaOut), areaDeAtuacao(areaDeAtuacao1), contato(contato1), numContratados(0)
+Empregador::Empregador(string nome, string sobrenome, string sexo, const Data &dataOut)
+:Pessoa(nome, sobrenome, sexo, dataOut), numContratados(0)
 {
 
 }
@@ -20,22 +21,22 @@ Empregador::Empregador(string areaDeAtuacao1, string contato1, const Pessoa &pes
 Empregador::Empregador(const Empregador &outroEmpregador)
 :Pessoa(outroEmpregador), areaDeAtuacao(outroEmpregador.areaDeAtuacao), contato(outroEmpregador.contato), numContratados(outroEmpregador.numContratados)
 {
-    contratados.resize(outroEmpregador.contratados.size());
+    /*contratados.resize(outroEmpregador.contratados.size());
   
-	for(int i = 0; i < contratados.size(); i++) {
-	  contratados[i] = new Trabalhador(*outroEmpregador.contratados[i]);
-  }
+	  for(int i = 0; i < contratados.size(); i++) {
+	    contratados[i] = new Trabalhador(*outroEmpregador.contratados[i]);
+    }*/
 }
 
 Empregador::~Empregador()
 {
     for(int i = 0; i < contratados.size(); i++) {
-		delete contratados[i];
+		  delete contratados[i];
     }
 }
 
 void Empregador::contrataTrabalhador(const Trabalhador &pessoa) {
-    contratados.push_back(new Trabalhador(pessoa));
+    //contratados.push_back(new Trabalhador(pessoa));
     numContratados++;
 }
 
@@ -52,46 +53,20 @@ void Empregador::printContratados() const {
 }
 
 void Empregador::demiteTrabalhador() {
-    for(int i = 0; i < contratados.size(); i++) {
-        if(contratados[i]->getHorasDeTrabalhoSemanais() < 44) {
-            cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " demitido! Horas de trabalho semanais realizadas: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
+  cout << "\nHoras semanais mínima: 44 horas" << "\n";
 
-            delete contratados[i];
-            numContratados--;
-        }
+  for(int i = 0; i < contratados.size(); i++) {
+    if(contratados[i]->getVinculoEmpregaticio() == "Sim") {
+      if(contratados[i]->getHorasDeTrabalhoSemanais() < 44) {
+        cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " demitido! Horas de trabalho semanais realizadas: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
+
+          delete contratados[i];
+          numContratados--;
+      }
     }
-}
 
-ostream &operator<<(ostream &out, const Empregador &empregador) {
-    out << "\n- INFORMAÇÕES SOBRE O EMPREGADOR -\n";
-    out << static_cast <Pessoa> (empregador) << "\n";
-    out << "Área de atuação: " << empregador.areaDeAtuacao << "\n";
-    out << "Contato: " << empregador.contato << "\n";
-    out << "Número de contratados: " << empregador.numContratados << "\n";
-    
-    empregador.printContratados();
-}
-
-bool Empregador::operator==(const Empregador &outroEmpregador) const {
-  if(this->areaDeAtuacao != outroEmpregador.areaDeAtuacao) {
-    return false;
+    else {
+      cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " não pode ser demitido, pois não possui vínculo empregatício\n";
+    }
   }
-
-  if(this->contato != outroEmpregador.contato) {
-    return false;
-  }
-
-  if(this->numContratados != outroEmpregador.numContratados) {
-    return false;
-  }
-
-  if(this->contratados.size() != outroEmpregador.contratados.size()) {
-    return false;
-  }
-
-  return true;
-}
-
-bool Empregador::operator!=(const Empregador &outroEmpregador) const {
-  return !(*this == outroEmpregador);
 }
