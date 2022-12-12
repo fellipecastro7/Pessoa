@@ -1,5 +1,4 @@
 #include "Empregador.h"
-#include "Trabalhador.h"
 
 #include <iostream>
 
@@ -7,7 +6,7 @@ using std::cout;
 using std::cin;
 
 Empregador::Empregador()
-:areaDeAtuacao(""), contato(""), numContratados(0)
+:numContratados(0)
 {
 
 }
@@ -19,28 +18,17 @@ Empregador::Empregador(string nome, string sobrenome, string sexo, const Data &d
 }
 
 Empregador::Empregador(const Empregador &outroEmpregador)
-:Pessoa(outroEmpregador), areaDeAtuacao(outroEmpregador.areaDeAtuacao), contato(outroEmpregador.contato), numContratados(outroEmpregador.numContratados)
+:Pessoa(outroEmpregador), numContratados(outroEmpregador.numContratados)
 {
-    /*contratados.resize(outroEmpregador.contratados.size());
-  
-	  for(int i = 0; i < contratados.size(); i++) {
-	    contratados[i] = new Trabalhador(*outroEmpregador.contratados[i]);
-    }*/
+
 }
 
 Empregador::~Empregador()
 {
-    for(int i = 0; i < contratados.size(); i++) {
-		  delete contratados[i];
-    }
+
 }
 
-void Empregador::contrataTrabalhador(const Trabalhador &pessoa) {
-    //contratados.push_back(new Trabalhador(pessoa));
-    numContratados++;
-}
-
-void Empregador::printContratados() const {
+/*void Empregador::printContratados() const {
     cout << "\nLista de contratados:\n";
 
     for(int i = 0; i < contratados.size(); i++) {
@@ -50,9 +38,46 @@ void Empregador::printContratados() const {
         cout << "\t> Horas de trabalho mensais: " << contratados[i]->getHorasDeTrabalhoMensais() << " horas\n";
         cout << "\t> Horas de trabalho semanais: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
     }
+}*/
+
+/*void Empregador::adicionaRural(const Rural &rural) {
+  empregadores.push_back(new Rural(rural));
+  numEmpregadores++;
+}*/
+
+void Empregador::aposentar() {
+    string opcao;
+
+    cout << "Empregador -> Deseja se aposentar? [S/N] ";
+    cin >> opcao;
+
+    while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
+        cout << "Empregador -> Deseja se aposentar? [S/N] ";
+        cin >> opcao;
+    }
+
+    if(opcao == "n" || opcao == "N") {
+        aposentado = false;
+    }
+
+    if(opcao == "S" || opcao == "s") {
+        if(calculaTempoDeTrabalho() < 35) {
+            cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
+            aposentado = false;
+        }
+
+        else {
+            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
+            aposentado = true;
+        }
+    }
 }
 
-void Empregador::demiteTrabalhador() {
+int Empregador::calculaTempoDeTrabalho() {
+    return anosDeContribuicao;
+}
+
+/*void Empregador::demiteTrabalhador() {
   cout << "\nHoras semanais mínima: 44 horas" << "\n";
 
   for(int i = 0; i < contratados.size(); i++) {
@@ -69,4 +94,4 @@ void Empregador::demiteTrabalhador() {
       cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " não pode ser demitido, pois não possui vínculo empregatício\n";
     }
   }
-}
+}*/

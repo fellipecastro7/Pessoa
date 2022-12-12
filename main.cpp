@@ -4,12 +4,14 @@
 #include "Data.cpp"
 #include "Trabalhador.h"
 #include "Trabalhador.cpp"
-//#include "Empregador.h"
-//#include "Empregador.cpp"
+#include "Empregador.h"
+#include "Empregador.cpp"
 #include "Proprietario.h"
 #include "Proprietario.cpp"
 #include "Inquilino.h"
 #include "Inquilino.cpp"
+#include "Rural.h"
+#include "Rural.cpp"
 
 #include <iostream>
 #include <windows.h>
@@ -19,7 +21,7 @@ using std::cout;
 int main() {
   SetConsoleOutputCP(CP_UTF8);
 
-  Proprietario *proprietario1 = new Proprietario("João", "Silveira", "Masculino", "Brasileiro", 2, Data(2, 4, 1990));
+  Proprietario *proprietario1 = new Proprietario("João", "Silveira", "Masculino", "Brasileira", 2, Data(2, 4, 1965));
   Casa casa1;
   Casa casa2;
 
@@ -34,11 +36,12 @@ int main() {
   casa2.altura = 4;
 
   cout << *proprietario1 << "\n";
+  proprietario1->printCasasAlugadas();
   proprietario1->perguntaVinculoEmpregaticio();
   
   if(proprietario1->getVinculoEmpregaticio() == "Sim") {
     proprietario1->setProfissao("Engenheiro elétrico");
-    proprietario1->setAnosDeContribuicao(34);
+    proprietario1->calculaAnosDeContribuicao(57);
     proprietario1->calculaHorasDeTrabalhoMensais(44);
     proprietario1->calculaSalarioPorHora(7500);
   }
@@ -55,9 +58,35 @@ int main() {
   proprietario1->adicionaInquilino(*inquilino1);
   proprietario1->adicionaCasa(casa2);
   proprietario1->adicionaInquilino(*inquilino2);
-  //cout << *proprietario1 << "\n";
-  proprietario1->aposentar();
   cout << *proprietario1 << "\n";
+  proprietario1->printCasasAlugadas();
+  proprietario1->aposentar();
+  cout << "\n" << *proprietario1 << "\n";
+  proprietario1->printCasasAlugadas();
+
+  //Rural *rural1 = new Rural("Otávio", "Oliveira", "Masculino", "Brasileira", "999999999", Data(19, 12, 1970));
+
+  vector <Trabalhador *> trabalhadores;
+  trabalhadores.push_back(new Proprietario(*proprietario1));
+  trabalhadores.push_back(new Inquilino(*inquilino1));
+
+  cout << "\n- Situação dos trabalhadores -\n";
+
+  for(Trabalhador *trabalhador:trabalhadores) {
+    cout << "Nome: " << trabalhador->getNomeCompleto() << "\n";
+    cout << "Está aposentado? " << (trabalhador->getAposentado() ? "Sim" : "Não") << "\n";
+  }
+
+  /*cout << *rural1 << "\n";
+  rural1->printContratados();
+  rural1->calculaAnosDeContribuicao(52);
+  rural1->contratar("João");
+  rural1->contratar("Maria");
+  cout << "\n" << *rural1 << "\n";
+  rural1->printContratados();
+  rural1->aposentar();
+  cout << "\n" << *rural1 << "\n";
+  rural1->printContratados();*/
 
   return 0;
 }

@@ -14,7 +14,8 @@ class Trabalhador:public Pessoa {
         void setProfissao(string);
         string getProfissao() const;
         void setSalario(float);
-        void setAnosDeContribuicao(int);
+        void calculaAnosDeContribuicao(int);
+        void setAposentado(bool);
         float getSalario() const;
         float getSalarioPorHora() const;
         int getHorasDeTrabalhoMensais() const;
@@ -22,13 +23,11 @@ class Trabalhador:public Pessoa {
         string getVinculoEmpregaticio() const;
         int getAnosDeContribuicao() const;
         bool getAposentado() const;
-
         float calculaSalarioPorHora(float);
         int calculaHorasDeTrabalhoMensais(int);
         void perguntaVinculoEmpregaticio();
-
-        virtual void aposentar() = 0;
-        virtual int calculaTempoDeTrabalho() = 0;
+        void aposentar();
+        int calculaTempoDeTrabalho();
 
     private:
         string profissao;

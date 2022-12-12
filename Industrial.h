@@ -1,16 +1,16 @@
-#ifndef RURAL_H
-#define	RURAL_H
+#ifndef INDUSTRIAL_H
+#define	INDUSTRIAL_H
 
 #include "Empregador.h"
 
-class Rural:public Empregador {
-    friend ostream &operator<<(ostream &, const Rural &);
+class Industrial:public Empregador {
+    friend ostream &operator<<(ostream &, const Industrial &);
 
     public:
-        Rural();
-        Rural(string, string, string, string, string, const Data & = Data(5, 7, 2015));
-        Rural(const Rural &);
-        ~Rural();
+        Industrial();
+        Industrial(string, string, string, string, string, const Data & = Data(5, 7, 2015));
+        Industrial(const Industrial &);
+        ~Industrial();
         
         void calculaAnosDeContribuicao(int);
         void printContratados() const;
@@ -19,8 +19,8 @@ class Rural:public Empregador {
         void contratar(string);
         void demitir(string);
 
-        bool operator==(const Rural &) const;
-        bool operator!=(const Rural &) const;
+        bool operator==(const Industrial &) const;
+        bool operator!=(const Industrial &) const;
 
     private:
         static const string AREADEATUACAO;

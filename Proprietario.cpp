@@ -48,10 +48,10 @@ double Casa::getArea() const {
 }
 
 void Proprietario::printCasasAlugadas() const {
-  cout << "\n- Casas Alugadas -\n";
+  cout << "- Casas alugadas e seus respectivos inquilinos-\n";
 
   if(casasAlugadas.size() != 0) {
-    for(int i = 0; (i < casasAlugadas.size() && i < inquilinos.size()); i++) {
+    for(int i = 0; i < casasAlugadas.size(); i++) {
       cout << "Casa [" << i + 1 << "]\n";
       cout << "\t> Número de cômodos: " << casasAlugadas[i]->numComodos << "\n";
       cout << "\t> Tipo de casa: " << casasAlugadas[i]->tipo << "\n";
@@ -61,7 +61,6 @@ void Proprietario::printCasasAlugadas() const {
       cout << "Inquilino [" << i + 1 << "]\n";
       cout << "\t> Nome: " << inquilinos[i]->getNomeCompleto() << "\n";
       cout << "\t> Sexo: " << inquilinos[i]->getSexo() << "\n";
-      //cout << "\t> Idade: " << inquilinos[i]->calculaIdade() << " anos\n";
       cout << "\t> Aluguel: R$" << inquilinos[i]->getAluguel() << "\n";
       cout << "\t> Tempo: " << inquilinos[i]->getTempo() << " meses\n";
       cout << "\t> Aluguel final: R$" << inquilinos[i]->calculaAluguelFinal() << "\n";
@@ -98,7 +97,7 @@ void Proprietario::adicionaInquilino(const Inquilino &inquilinoOut) {
 void Proprietario::aposentar() {
     string opcao;
 
-    cout << "Trabalhador -> Deseja se aposentar? [S/N] ";
+    cout << "\nDeseja se aposentar? [S/N] ";
     cin >> opcao;
 
     while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
@@ -107,37 +106,37 @@ void Proprietario::aposentar() {
     }
 
     if(opcao == "n" || opcao == "N") {
-        aposentado = false;
+        setAposentado(false);
     }
 
     if(opcao == "S" || opcao == "s") {
       if(calculaIdade() > 35) {
         if(calculaTempoDeTrabalho() < 35) {
           cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
-          aposentado = false;
+          setAposentado(false);
         }
 
         else {
           cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n\n";
-          aposentado = true;
+          setAposentado(true);
         }
       }
 
       else {
-        cout << "Não é possível se aposentar. Idade: " << calculaIdade() << " anos\n";
+        cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
       }
     }
 }
 
 int Proprietario::calculaTempoDeTrabalho() {
-    return anosDeContribuicao;
+    return getAnosDeContribuicao();
 }
 
 ostream &operator<<(ostream &out, const Proprietario &proprietario) {
     out << "- INFORMAÇÕES SOBRE O PROPRIETÁRIO -\n";
     out << "Nome: " << proprietario.getNomeCompleto() << "\n";
     out << "Sexo: " << proprietario.getSexo() << "\n";
-    out << "Idade: " << proprietario.calculaIdade() << "\n";
+    out << "Idade: " << proprietario.calculaIdade() << " anos\n";
     out << "Possui vínculo empregatício? " << proprietario.getVinculoEmpregaticio() << "\n";
     out << "Profissão: " << proprietario.getProfissao() << "\n";
     
@@ -153,12 +152,10 @@ ostream &operator<<(ostream &out, const Proprietario &proprietario) {
     }
 
     out << "Nacionalidade: " << proprietario.nacionalidade << "\n";
-    out << "Anos de contribuição: " << proprietario.getAnosDeContribuicao() << "\n";
-    out << "Aposentado? " << proprietario.getAposentado() << "\n";
+    out << "Anos de contribuição: " << proprietario.getAnosDeContribuicao() << " anos\n";
+    out << "Aposentado? " << (proprietario.getAposentado() ? "Sim" : "Não") << "\n";
     out << "Quantidade de casas em sua posse: " << proprietario.numCasasPossuidas << "\n";
     out << "Quantidade de casas alugadas: " << proprietario.numCasasAlugadas << "\n";
-
-    proprietario.printCasasAlugadas();
 }
 
 bool Proprietario::operator==(const Proprietario &outroProprietario) const {

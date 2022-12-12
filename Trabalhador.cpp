@@ -28,6 +28,10 @@ Trabalhador::~Trabalhador()
 
 }
 
+void Trabalhador::setAposentado(bool aposentado1) {
+    aposentado = aposentado1;
+}
+
 int Trabalhador::calculaHorasDeTrabalhoMensais(int horasDeTrabalhoSemanais1) {
     if(horasDeTrabalhoSemanais1 <= 0) {
         return 0;
@@ -82,7 +86,7 @@ void Trabalhador::aposentar() {
     cin >> opcao;
 
     while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
-        cout << "Deseja se aposentar? [S/N] ";
+        cout << "Trabalhador -> Deseja se aposentar? [S/N] ";
         cin >> opcao;
     }
 
@@ -107,14 +111,14 @@ int Trabalhador::calculaTempoDeTrabalho() {
     return anosDeContribuicao;
 }
 
-void Trabalhador::setAnosDeContribuicao(int anosDeContribuicao1) {
-    if(anosDeContribuicao1 <= 0) {
-        anosDeContribuicao1 = 0;
+void Trabalhador::calculaAnosDeContribuicao(int idade1) {
+    if(idade1 < 18) {
+        anosDeContribuicao = 0;
 
         return;
     }
 
-    anosDeContribuicao = anosDeContribuicao1;
+    anosDeContribuicao = idade1 - 18;
 }
 
 void Trabalhador::setProfissao(string profissao1) {

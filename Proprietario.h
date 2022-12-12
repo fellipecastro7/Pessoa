@@ -47,7 +47,7 @@ class Proprietario:public Trabalhador {
         vector <Inquilino *> inquilinos;
         int numCasasAlugadas;
         int anosDeContribuicao;
-        bool aposentado;
+        //bool aposentado;
 };
 
 #endif

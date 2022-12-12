@@ -1,38 +1,38 @@
-#include "Rural.h"
+#include "Industrial.h"
 
 #include <iostream>
 
 using std::cout;
 using std::cin;
 
-const string Rural::AREADEATUACAO = "Agroeconomia";
+const string Industrial::AREADEATUACAO = "Indústria";
 
-Rural::Rural()
+Industrial::Industrial()
 :anosDeContribuicao(0), aposentado(false), contato(""), nacionalidade(""), numContratados(0), vagas(0)
 {
 
 }
 
-Rural::Rural(string nome, string sobrenome, string sexo, string nacionalidade, string contato, const Data &dataOut)
+Industrial::Industrial(string nome, string sobrenome, string sexo, string nacionalidade, string contato, const Data &dataOut)
 :Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade), aposentado(false), contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
 {
 
 }
 
-Rural::Rural(const Rural &outroRural)
-:Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade), aposentado(outroRural.aposentado), anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
+Industrial::Industrial(const Industrial &outroIndustrial)
+:Empregador(outroIndustrial), contato(outroIndustrial.contato), nacionalidade(outroIndustrial.nacionalidade), aposentado(outroIndustrial.aposentado), anosDeContribuicao(outroIndustrial.anosDeContribuicao), numContratados(outroIndustrial.numContratados), vagas(outroIndustrial.vagas)
 {
 
 }
 
-Rural::~Rural()
+Industrial::~Industrial()
 {
   for(int i = 0; i < nomeContratados.size(); i++) {
 		delete nomeContratados[i];
   }
 }
 
-void Rural::calculaAnosDeContribuicao(int idade1) {
+void Industrial::calculaAnosDeContribuicao(int idade1) {
     if(idade1 < 18) {
       anosDeContribuicao = 0;
 
@@ -42,7 +42,7 @@ void Rural::calculaAnosDeContribuicao(int idade1) {
     anosDeContribuicao = idade1 - 18;
 }
 
-void Rural::printContratados() const {
+void Industrial::printContratados() const {
   cout << "- Nome dos contratados -\n";
 
   if(nomeContratados.size() != 0) {
@@ -56,7 +56,7 @@ void Rural::printContratados() const {
   }
 }
 
-void Rural::aposentar() {
+void Industrial::aposentar() {
     string opcao;
 
     cout << "Empregador -> Deseja se aposentar? [S/N] ";
@@ -84,16 +84,16 @@ void Rural::aposentar() {
     }
 }
 
-int Rural::calculaTempoDeTrabalho() {
+int Industrial::calculaTempoDeTrabalho() {
     return anosDeContribuicao;
 }
 
-void Rural::contratar(string nome) {
+void Industrial::contratar(string nome) {
   nomeContratados.push_back(new string(nome));
   numContratados++;
 }
 
-void Rural::demitir(string nome) {
+void Industrial::demitir(string nome) {
   if(nomeContratados.size() != 0) {
     for(int i = 0; i < nomeContratados.size(); i++) {
       if(*nomeContratados[i] == nome) {
@@ -113,40 +113,54 @@ void Rural::demitir(string nome) {
   }
 }
 
-ostream &operator<<(ostream &out, const Rural &rural) {
-    out << "- INFORMAÇÕES SOBRE O EMPREGADOR RURAL -\n";
-    out << "Nome: " << rural.getNomeCompleto() << "\n";
-    out << "Sexo: " << rural.getSexo() << "\n";
-    out << "Idade: " << rural.calculaIdade() << " anos\n";
-    out << "Nacionalidade: " << rural.nacionalidade << "\n";
-    out << "Anos de contribuição: " << rural.anosDeContribuicao << " anos\n";
-    out << "Aposentado? " << rural.aposentado << "\n";
+ostream &operator<<(ostream &out, const Industrial &industrial) {
+    out << "- INFORMAÇÕES SOBRE O EMPREGADOR INDUSTRIAL -\n";
+    out << "Nome: " << industrial.getNomeCompleto() << "\n";
+    out << "Sexo: " << industrial.getSexo() << "\n";
+    out << "Idade: " << industrial.calculaIdade() << " anos\n";
+    out << "Nacionalidade: " << industrial.nacionalidade << "\n";
+    out << "Anos de contribuição: " << industrial.anosDeContribuicao << " anos\n";
+    out << "Aposentado? " << industrial.aposentado << "\n";
 }
 
-bool Rural::operator==(const Rural &outroRural) const {
-  if(this->contato != outroRural.contato) {
+bool Industrial::operator==(const Industrial &outroIndustrial) const {
+  if(this->contato != outroIndustrial.contato) {
     return false;
   }
 
-  if(this->nacionalidade != outroRural.nacionalidade) {
+  if(this->nacionalidade != outroIndustrial.nacionalidade) {
     return false;
   }
 
-  if(this->numContratados != outroRural.numContratados) {
+  if(this->nomeContratados.size() != outroIndustrial.nomeContratados.size()) {
+    for(int i = 0; i < nomeContratados.size(); i++) {
+      if(this->nomeContratados[i] != outroIndustrial.nomeContratados[i]) {
+        return false;
+      }
+
+      else {
+        return true;
+      }
+    }
+
     return false;
   }
 
-  if(this->anosDeContribuicao != outroRural.anosDeContribuicao) {
+  if(this->numContratados != outroIndustrial.numContratados) {
     return false;
   }
 
-  if(this->aposentado != outroRural.aposentado) {
+  if(this->anosDeContribuicao != outroIndustrial.anosDeContribuicao) {
+    return false;
+  }
+
+  if(this->aposentado != outroIndustrial.aposentado) {
     return false;
   }
 
   return true;
 }
 
-bool Rural::operator!=(const Rural &outroRural) const {
-  return !(*this == outroRural);
+bool Industrial::operator!=(const Industrial &outroIndustrial) const {
+  return !(*this == outroIndustrial);
 }

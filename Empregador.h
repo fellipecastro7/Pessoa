@@ -2,7 +2,6 @@
 #define	EMPREGADOR_H
 
 #include "Pessoa.h"
-#include "Trabalhador.h"
 
 #include <vector>
 
@@ -15,16 +14,13 @@ class Empregador:public Pessoa {
         Empregador(const Empregador &);
         ~Empregador();
 
-        void contrataTrabalhador(const Trabalhador &);
-        void demiteTrabalhador();
-        void printContratados() const;
-        virtual void contratar() = 0;
-        virtual void demitir() = 0;
+        void aposentar();
+        int calculaTempoDeTrabalho();
+        virtual void contratar(string) = 0;
+        virtual void demitir(string) = 0;
 
     private:
-        string areaDeAtuacao;
-        string contato;
-        vector <Trabalhador *> contratados;
+        int numEmpregadores;
         int numContratados;
         int anosDeContribuicao;
         bool aposentado;
