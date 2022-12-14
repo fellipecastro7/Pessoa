@@ -2,7 +2,6 @@
 #define INQUILINO_H
 
 #include "Trabalhador.h"
-#include <iostream>
 
 using std::string;
 using std::ostream;
@@ -17,19 +16,18 @@ class Inquilino:public Trabalhador {
         ~Inquilino();
 
         float getAluguel() const;
-        int getTempo() const;
+        int getTempoDeAluguel() const;
         int calculaAluguelFinal() const;
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
 
         bool operator==(const Inquilino &) const;
         bool operator!=(const Inquilino &) const;
 
     private:
         float aluguel;
-        int tempo;
+        int tempoDeAluguel;
         int anosDeContribuicao;
-        bool aposentado;
 };
 
 #endif

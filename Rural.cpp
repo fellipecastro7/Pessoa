@@ -8,46 +8,48 @@ using std::cin;
 const string Rural::AREADEATUACAO = "Agroeconomia";
 
 Rural::Rural()
-:anosDeContribuicao(0), aposentado(false), contato(""), nacionalidade(""), numContratados(0), vagas(0)
+:anosDeContribuicao(0)/*, aposentado(false)*/, contato(""), nacionalidade(""), numContratados(0), vagas(0)
 {
 
 }
 
 Rural::Rural(string nome, string sobrenome, string sexo, string nacionalidade, string contato, const Data &dataOut)
-:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade), aposentado(false), contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
+:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade)/*, aposentado(false)*/, contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
 {
 
 }
 
 Rural::Rural(const Rural &outroRural)
-:Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade), aposentado(outroRural.aposentado), anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
+:Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade)/*, aposentado(outroRural.aposentado)*/, anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
 {
 
 }
 
 Rural::~Rural()
 {
-  for(int i = 0; i < nomeContratados.size(); i++) {
-		delete nomeContratados[i];
+  for(int i = 0; i < contratados.size(); i++) {
+		delete contratados[i];
   }
 }
 
-void Rural::calculaAnosDeContribuicao(int idade1) {
-    if(idade1 < 18) {
-      anosDeContribuicao = 0;
+int Rural::calculaAnosDeContribuicao() {
+    if(calculaIdade() < 18) {
+        anosDeContribuicao = 0;
 
-      return;
+        return 0;
     }
 
-    anosDeContribuicao = idade1 - 18;
+    anosDeContribuicao = calculaIdade() - 18;
+
+    return anosDeContribuicao;
 }
 
 void Rural::printContratados() const {
   cout << "- Nome dos contratados -\n";
 
-  if(nomeContratados.size() != 0) {
-    for(int i = 0; i < nomeContratados.size(); i++) {
-      cout << "- " << *nomeContratados[i] << "\n";
+  if(contratados.size() != 0) {
+    for(int i = 0; i < contratados.size(); i++) {
+      cout << "- " << *contratados[i] << "\n";
     }
   }
 
@@ -68,38 +70,34 @@ void Rural::aposentar() {
     }
 
     if(opcao == "n" || opcao == "N") {
-        aposentado = false;
+        setAposentado(false);
     }
 
     if(opcao == "S" || opcao == "s") {
-        if(calculaTempoDeTrabalho() < 15) {
+        if(calculaAnosDeContribuicao() < 15) {
             cout << "Não é possível se aposentar. Tempo de contribuição inferior a 15 anos\n";
-            aposentado = false;
+            setAposentado(false);
         }
 
         else {
-            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
-            aposentado = true;
+            cout << "Aposentado! tempo de contribuição: " << calculaAnosDeContribuicao() << " anos\n";
+            setAposentado(true);
         }
     }
 }
 
-int Rural::calculaTempoDeTrabalho() {
-    return anosDeContribuicao;
-}
-
 void Rural::contratar(string nome) {
-  nomeContratados.push_back(new string(nome));
+  contratados.push_back(new string(nome));
   numContratados++;
 }
 
 void Rural::demitir(string nome) {
-  if(nomeContratados.size() != 0) {
-    for(int i = 0; i < nomeContratados.size(); i++) {
-      if(*nomeContratados[i] == nome) {
-        cout << "Trabalhador " << *nomeContratados[i] << " demitido com sucesso!\n";
+  if(contratados.size() != 0) {
+    for(int i = 0; i < contratados.size(); i++) {
+      if(*contratados[i] == nome) {
+        cout << "Trabalhador " << *contratados[i] << " demitido com sucesso!\n";
 
-        delete nomeContratados[i];
+        delete contratados[i];
       }
 
       else {
@@ -120,7 +118,7 @@ ostream &operator<<(ostream &out, const Rural &rural) {
     out << "Idade: " << rural.calculaIdade() << " anos\n";
     out << "Nacionalidade: " << rural.nacionalidade << "\n";
     out << "Anos de contribuição: " << rural.anosDeContribuicao << " anos\n";
-    out << "Aposentado? " << rural.aposentado << "\n";
+    out << "Aposentado? " << (rural.getAposentado() ? "Sim" : "Não") << "\n";
 }
 
 bool Rural::operator==(const Rural &outroRural) const {
@@ -140,7 +138,7 @@ bool Rural::operator==(const Rural &outroRural) const {
     return false;
   }
 
-  if(this->aposentado != outroRural.aposentado) {
+  if(this->vagas != outroRural.vagas) {
     return false;
   }
 

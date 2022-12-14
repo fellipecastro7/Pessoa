@@ -28,10 +28,6 @@ Trabalhador::~Trabalhador()
 
 }
 
-void Trabalhador::setAposentado(bool aposentado1) {
-    aposentado = aposentado1;
-}
-
 int Trabalhador::calculaHorasDeTrabalhoMensais(int horasDeTrabalhoSemanais1) {
     if(horasDeTrabalhoSemanais1 <= 0) {
         return 0;
@@ -95,30 +91,40 @@ void Trabalhador::aposentar() {
     }
 
     if(opcao == "S" || opcao == "s") {
-        if(calculaTempoDeTrabalho() < 35) {
+        if(calculaAnosDeContribuicao() < 35) {
             cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
             aposentado = false;
         }
 
         else {
-            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
+            cout << "Aposentado! tempo de contribuição: " << calculaAnosDeContribuicao() << " anos\n";
             aposentado = true;
         }
     }
 }
 
-int Trabalhador::calculaTempoDeTrabalho() {
+int Trabalhador::calculaAnosDeContribuicao() {
+    if(calculaIdade() < 18) {
+        anosDeContribuicao = 0;
+
+        return 0;
+    }
+
+    anosDeContribuicao = calculaIdade() - 18;
+
     return anosDeContribuicao;
 }
 
-void Trabalhador::calculaAnosDeContribuicao(int idade1) {
-    if(idade1 < 18) {
-        anosDeContribuicao = 0;
+void Trabalhador::setAposentado(bool aposentado1) {
+    aposentado = aposentado1;
+}
 
+void Trabalhador::setSalario(float salario1) {
+    if(salario1 <= 0) {
         return;
     }
 
-    anosDeContribuicao = idade1 - 18;
+    salario = salario1;
 }
 
 void Trabalhador::setProfissao(string profissao1) {
@@ -131,14 +137,6 @@ void Trabalhador::setProfissao(string profissao1) {
 
 string Trabalhador::getProfissao() const {
     return profissao;
-}
-
-void Trabalhador::setSalario(float salario1) {
-    if(salario1 <= 0) {
-        return;
-    }
-
-    salario = salario1;
 }
 
 float Trabalhador::getSalario() const {

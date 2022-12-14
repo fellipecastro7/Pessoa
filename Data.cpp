@@ -41,15 +41,6 @@ int Data::VerificaDia(int diaTeste) const
     
 }
 
-int Data::calculaAnoAtual() const {
-    struct tm *local;
-    time_t t;
-    int anoAtual;
-
-    t = time(NULL);
-    local = localtime(&t);
-
-    anoAtual = local->tm_year + 1900;
-
-    return anoAtual;
+int Data::getAno() const {
+    return ano;
 }

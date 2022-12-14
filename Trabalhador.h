@@ -2,7 +2,6 @@
 #define	TRABALHADOR_H
 
 #include "Pessoa.h"
-#include "Data.h"
 
 class Trabalhador:public Pessoa {
     public:
@@ -12,10 +11,9 @@ class Trabalhador:public Pessoa {
         ~Trabalhador();
 
         void setProfissao(string);
-        string getProfissao() const;
         void setSalario(float);
-        void calculaAnosDeContribuicao(int);
         void setAposentado(bool);
+        string getProfissao() const;
         float getSalario() const;
         float getSalarioPorHora() const;
         int getHorasDeTrabalhoMensais() const;
@@ -27,7 +25,7 @@ class Trabalhador:public Pessoa {
         int calculaHorasDeTrabalhoMensais(int);
         void perguntaVinculoEmpregaticio();
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
 
     private:
         string profissao;

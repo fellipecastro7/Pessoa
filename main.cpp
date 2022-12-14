@@ -41,7 +41,7 @@ int main() {
   
   if(proprietario1->getVinculoEmpregaticio() == "Sim") {
     proprietario1->setProfissao("Engenheiro elétrico");
-    proprietario1->calculaAnosDeContribuicao(57);
+    proprietario1->calculaAnosDeContribuicao();
     proprietario1->calculaHorasDeTrabalhoMensais(44);
     proprietario1->calculaSalarioPorHora(7500);
   }
@@ -50,6 +50,7 @@ int main() {
     proprietario1->setProfissao("Professor particular");
     proprietario1->setSalario(2200);
   }
+
 
   Inquilino *inquilino1 = new Inquilino("Raimundo", "Nonato", "Masculino", 700, 6, Data(2, 4, 2002));
   Inquilino *inquilino2 = new Inquilino("Tiririca", "Florentina", "Masculino", 650, 4, Data(7, 12, 1990));
@@ -64,7 +65,7 @@ int main() {
   cout << "\n" << *proprietario1 << "\n";
   proprietario1->printCasasAlugadas();
 
-  //Rural *rural1 = new Rural("Otávio", "Oliveira", "Masculino", "Brasileira", "999999999", Data(19, 12, 1970));
+  Rural *rural1 = new Rural("Otávio", "Oliveira", "Masculino", "Brasileira", "999999999", Data(19, 12, 1970));
 
   vector <Trabalhador *> trabalhadores;
   trabalhadores.push_back(new Proprietario(*proprietario1));
@@ -77,16 +78,16 @@ int main() {
     cout << "Está aposentado? " << (trabalhador->getAposentado() ? "Sim" : "Não") << "\n";
   }
 
-  /*cout << *rural1 << "\n";
+  cout << *rural1 << "\n";
   rural1->printContratados();
-  rural1->calculaAnosDeContribuicao(52);
+  rural1->calculaAnosDeContribuicao();
   rural1->contratar("João");
   rural1->contratar("Maria");
   cout << "\n" << *rural1 << "\n";
   rural1->printContratados();
   rural1->aposentar();
   cout << "\n" << *rural1 << "\n";
-  rural1->printContratados();*/
+  rural1->printContratados();
 
   return 0;
 }

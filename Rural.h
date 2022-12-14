@@ -12,10 +12,9 @@ class Rural:public Empregador {
         Rural(const Rural &);
         ~Rural();
         
-        void calculaAnosDeContribuicao(int);
         void printContratados() const;
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
         void contratar(string);
         void demitir(string);
 
@@ -26,10 +25,10 @@ class Rural:public Empregador {
         static const string AREADEATUACAO;
         string contato;
         string nacionalidade;
-        vector <string *> nomeContratados;
+        vector <string *> contratados;
         int numContratados;
         int anosDeContribuicao;
-        bool aposentado;
+        //bool aposentado;
         int vagas;
 };
 

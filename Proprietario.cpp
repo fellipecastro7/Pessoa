@@ -6,19 +6,19 @@ using std::cout;
 using std::cin;
 
 Proprietario::Proprietario()
-:nacionalidade(""), numCasasAlugadas(0), numCasasPossuidas(0)
+:nacionalidade(""), numCasasAlugadas(0), numCasasPossuidas(0), anosDeContribuicao(0)
 {
 
 }
 
 Proprietario::Proprietario(string nome, string sobrenome, string sexo, string nacionalidade1, int numCasasPossuidas1, const Data &dataOut)
-:Trabalhador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade1), numCasasAlugadas(0), numCasasPossuidas(numCasasPossuidas1)
+:Trabalhador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade1), numCasasAlugadas(0), numCasasPossuidas(numCasasPossuidas1), anosDeContribuicao(0)
 {
 
 }
 
 Proprietario::Proprietario(const Proprietario &outroProprietario)
-:Trabalhador(outroProprietario), nacionalidade(outroProprietario.nacionalidade), numCasasAlugadas(outroProprietario.numCasasAlugadas), numCasasPossuidas(outroProprietario.numCasasPossuidas)
+:Trabalhador(outroProprietario), nacionalidade(outroProprietario.nacionalidade), numCasasAlugadas(outroProprietario.numCasasAlugadas), numCasasPossuidas(outroProprietario.numCasasPossuidas), anosDeContribuicao(outroProprietario.anosDeContribuicao)
 {
   casasAlugadas.resize(outroProprietario.casasAlugadas.size());
   
@@ -43,10 +43,6 @@ Proprietario::~Proprietario() {
   }
 }
 
-double Casa::getArea() const {
-    return comprimento * altura;
-}
-
 void Proprietario::printCasasAlugadas() const {
   cout << "- Casas alugadas e seus respectivos inquilinos-\n";
 
@@ -62,7 +58,7 @@ void Proprietario::printCasasAlugadas() const {
       cout << "\t> Nome: " << inquilinos[i]->getNomeCompleto() << "\n";
       cout << "\t> Sexo: " << inquilinos[i]->getSexo() << "\n";
       cout << "\t> Aluguel: R$" << inquilinos[i]->getAluguel() << "\n";
-      cout << "\t> Tempo: " << inquilinos[i]->getTempo() << " meses\n";
+      cout << "\t> Tempo: " << inquilinos[i]->getTempoDeAluguel() << " meses\n";
       cout << "\t> Aluguel final: R$" << inquilinos[i]->calculaAluguelFinal() << "\n";
     }
   }
@@ -95,67 +91,79 @@ void Proprietario::adicionaInquilino(const Inquilino &inquilinoOut) {
 }
 
 void Proprietario::aposentar() {
-    string opcao;
+  string opcao;
 
-    cout << "\nDeseja se aposentar? [S/N] ";
+  cout << "\nDeseja se aposentar? [S/N] ";
+  cin >> opcao;
+
+  while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
+    cout << "Deseja se aposentar? [S/N] ";
     cin >> opcao;
+  }
 
-    while(opcao != "S" && opcao != "s" && opcao != "N" && opcao != "n") {
-        cout << "Deseja se aposentar? [S/N] ";
-        cin >> opcao;
-    }
+  if(opcao == "n" || opcao == "N") {
+    setAposentado(false);
+  }
 
-    if(opcao == "n" || opcao == "N") {
+  if(opcao == "S" || opcao == "s") {
+    if(calculaIdade() > 35) {
+      if(calculaAnosDeContribuicao() < 35) {
+        cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
         setAposentado(false);
-    }
-
-    if(opcao == "S" || opcao == "s") {
-      if(calculaIdade() > 35) {
-        if(calculaTempoDeTrabalho() < 35) {
-          cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
-          setAposentado(false);
-        }
-
-        else {
-          cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n\n";
-          setAposentado(true);
-        }
       }
 
       else {
-        cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
+        cout << "Aposentado! tempo de contribuição: " << calculaAnosDeContribuicao() << " anos\n\n";
+        setAposentado(true);
       }
-    }
-}
-
-int Proprietario::calculaTempoDeTrabalho() {
-    return getAnosDeContribuicao();
-}
-
-ostream &operator<<(ostream &out, const Proprietario &proprietario) {
-    out << "- INFORMAÇÕES SOBRE O PROPRIETÁRIO -\n";
-    out << "Nome: " << proprietario.getNomeCompleto() << "\n";
-    out << "Sexo: " << proprietario.getSexo() << "\n";
-    out << "Idade: " << proprietario.calculaIdade() << " anos\n";
-    out << "Possui vínculo empregatício? " << proprietario.getVinculoEmpregaticio() << "\n";
-    out << "Profissão: " << proprietario.getProfissao() << "\n";
-    
-    if(proprietario.getVinculoEmpregaticio() == "Não") {
-        out << "Salário: R$" << proprietario.getSalario() << "\n";
     }
 
     else {
-        out << "Horas de trabalho mensais: " << proprietario.getHorasDeTrabalhoMensais() << " horas\n";
-        out << "Horas de trabalho semanais: " << proprietario.getHorasDeTrabalhoSemanais() << " horas\n";
-        out << "Salário: R$" << proprietario.getSalario() << "\n";
-        out << "Salário por hora: R$" << proprietario.getSalarioPorHora() << "\n";
+      cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
     }
+  }
+}
 
-    out << "Nacionalidade: " << proprietario.nacionalidade << "\n";
-    out << "Anos de contribuição: " << proprietario.getAnosDeContribuicao() << " anos\n";
-    out << "Aposentado? " << (proprietario.getAposentado() ? "Sim" : "Não") << "\n";
-    out << "Quantidade de casas em sua posse: " << proprietario.numCasasPossuidas << "\n";
-    out << "Quantidade de casas alugadas: " << proprietario.numCasasAlugadas << "\n";
+int Proprietario::calculaAnosDeContribuicao() {
+  if(calculaIdade() < 18) {
+    anosDeContribuicao = 0;
+
+    return 0;
+  }
+
+  anosDeContribuicao = calculaIdade() - 18;
+
+  return anosDeContribuicao;
+}
+
+double casa::getArea() const {
+  return comprimento * altura;
+}
+
+ostream &operator<<(ostream &out, const Proprietario &proprietario) {
+  out << "- INFORMAÇÕES SOBRE O PROPRIETÁRIO -\n";
+  out << "Nome: " << proprietario.getNomeCompleto() << "\n";
+  out << "Sexo: " << proprietario.getSexo() << "\n";
+  out << "Idade: " << proprietario.calculaIdade() << " anos\n";
+  out << "Possui vínculo empregatício? " << proprietario.getVinculoEmpregaticio() << "\n";
+  out << "Profissão: " << proprietario.getProfissao() << "\n";
+    
+  if(proprietario.getVinculoEmpregaticio() == "Não") {
+    out << "Salário: R$" << proprietario.getSalario() << "\n";
+  }
+
+  else {
+    out << "Horas de trabalho mensais: " << proprietario.getHorasDeTrabalhoMensais() << " horas\n";
+    out << "Horas de trabalho semanais: " << proprietario.getHorasDeTrabalhoSemanais() << " horas\n";
+    out << "Salário: R$" << proprietario.getSalario() << "\n";
+    out << "Salário por hora: R$" << proprietario.getSalarioPorHora() << "\n";
+  }
+
+  out << "Nacionalidade: " << proprietario.nacionalidade << "\n";
+  out << "Anos de contribuição: " << proprietario.anosDeContribuicao << " anos\n";
+  out << "Aposentado? " << (proprietario.getAposentado() ? "Sim" : "Não") << "\n";
+  out << "Quantidade de casas em sua posse: " << proprietario.numCasasPossuidas << "\n";
+  out << "Quantidade de casas alugadas: " << proprietario.numCasasAlugadas << "\n";
 }
 
 bool Proprietario::operator==(const Proprietario &outroProprietario) const {
@@ -172,6 +180,10 @@ bool Proprietario::operator==(const Proprietario &outroProprietario) const {
   }
 
   if(this->numCasasAlugadas != outroProprietario.numCasasAlugadas) {
+    return false;
+  }
+
+  if(this->anosDeContribuicao != outroProprietario.anosDeContribuicao) {
     return false;
   }
 

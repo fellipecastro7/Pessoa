@@ -3,10 +3,6 @@
 
 #include "Pessoa.h"
 
-#include <vector>
-
-using std::vector;
-
 class Empregador:public Pessoa {
     public:
         Empregador();
@@ -14,13 +10,14 @@ class Empregador:public Pessoa {
         Empregador(const Empregador &);
         ~Empregador();
 
+        void setAposentado(bool);
+        bool getAposentado() const;
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
         virtual void contratar(string) = 0;
         virtual void demitir(string) = 0;
 
     private:
-        int numEmpregadores;
         int numContratados;
         int anosDeContribuicao;
         bool aposentado;

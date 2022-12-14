@@ -28,23 +28,6 @@ Empregador::~Empregador()
 
 }
 
-/*void Empregador::printContratados() const {
-    cout << "\nLista de contratados:\n";
-
-    for(int i = 0; i < contratados.size(); i++) {
-        cout << "- " << contratados[i]->getNomeCompleto() << "\n";
-        cout << "\t> Salário: R$" << contratados[i]->getSalario() << "\n";
-        cout << "\t> Salário por hora: R$" << contratados[i]->getSalarioPorHora() << "\n";
-        cout << "\t> Horas de trabalho mensais: " << contratados[i]->getHorasDeTrabalhoMensais() << " horas\n";
-        cout << "\t> Horas de trabalho semanais: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
-    }
-}*/
-
-/*void Empregador::adicionaRural(const Rural &rural) {
-  empregadores.push_back(new Rural(rural));
-  numEmpregadores++;
-}*/
-
 void Empregador::aposentar() {
     string opcao;
 
@@ -61,37 +44,34 @@ void Empregador::aposentar() {
     }
 
     if(opcao == "S" || opcao == "s") {
-        if(calculaTempoDeTrabalho() < 35) {
+        if(calculaIdade() < 35) {
             cout << "Não é possível se aposentar. Tempo de contribuição inferior a 35 anos\n";
             aposentado = false;
         }
 
         else {
-            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
+            cout << "Aposentado! tempo de contribuição: " << calculaIdade() << " anos\n";
             aposentado = true;
         }
     }
 }
 
-int Empregador::calculaTempoDeTrabalho() {
-    return anosDeContribuicao;
+void Empregador::setAposentado(bool aposentado1) {
+    aposentado = aposentado1;
 }
 
-/*void Empregador::demiteTrabalhador() {
-  cout << "\nHoras semanais mínima: 44 horas" << "\n";
+bool Empregador::getAposentado() const {
+    return aposentado;
+}
 
-  for(int i = 0; i < contratados.size(); i++) {
-    if(contratados[i]->getVinculoEmpregaticio() == "Sim") {
-      if(contratados[i]->getHorasDeTrabalhoSemanais() < 44) {
-        cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " demitido! Horas de trabalho semanais realizadas: " << contratados[i]->getHorasDeTrabalhoSemanais() << " horas\n";
+int Empregador::calculaAnosDeContribuicao() {
+    if(calculaIdade() < 18) {
+        anosDeContribuicao = 0;
 
-          delete contratados[i];
-          numContratados--;
-      }
+        return 0;
     }
 
-    else {
-      cout << "Trabalhador " << contratados[i]->getNomeCompleto() << " não pode ser demitido, pois não possui vínculo empregatício\n";
-    }
-  }
-}*/
+    anosDeContribuicao = calculaIdade() - 18;
+
+    return anosDeContribuicao;
+}

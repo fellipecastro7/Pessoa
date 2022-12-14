@@ -4,7 +4,6 @@
 #include "Trabalhador.h"
 #include "Inquilino.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -35,7 +34,7 @@ class Proprietario:public Trabalhador {
         void adicionaInquilino(const Inquilino &);
         void printCasasAlugadas() const;
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
 
         bool operator==(const Proprietario &) const;
         bool operator!=(const Proprietario &) const;
@@ -47,7 +46,6 @@ class Proprietario:public Trabalhador {
         vector <Inquilino *> inquilinos;
         int numCasasAlugadas;
         int anosDeContribuicao;
-        //bool aposentado;
 };
 
 #endif

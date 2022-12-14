@@ -13,13 +13,7 @@ Pessoa::Pessoa()
 Pessoa::Pessoa(string nome, string sobrenome, string sexo, const Data &dataOut)
 :nome(nome), sobrenome(sobrenome), sexo(sexo), dataNascimento(dataOut)
 {
-  setNomeCompleto(nome, sobrenome);
-}
 
-Pessoa::Pessoa(string nome, string sobrenome)
-:nome(nome), sobrenome(""), sexo(""), dataNascimento()
-{
-  setNomeCompleto(nome, sobrenome);
 }
 
 Pessoa::Pessoa(const Pessoa &outraPessoa)
@@ -31,11 +25,6 @@ Pessoa::Pessoa(const Pessoa &outraPessoa)
 Pessoa::~Pessoa()
 {
   
-}
-
-void Pessoa::setNomeCompleto(string nome, string sobrenome) {
-  nome = nome;
-  sobrenome = sobrenome;
 }
 
 string Pessoa::getNomeCompleto() const {
@@ -56,10 +45,6 @@ string Pessoa::getSexo() const {
   return sexo;
 }
 
-Data Pessoa::getDataNascimento() const {
-  return dataNascimento;
-}
-
 int Pessoa::calculaAnoAtual() const {
     struct tm *local;
     time_t t;
@@ -76,7 +61,7 @@ int Pessoa::calculaAnoAtual() const {
 int Pessoa::calculaIdade() const {
     int idade;
 
-    idade = calculaAnoAtual() - dataNascimento.ano;
+    idade = calculaAnoAtual() - dataNascimento.getAno();
 
     return idade;
 }

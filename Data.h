@@ -8,15 +8,13 @@ public:
     Data( int = 1, int = 1, int = 1900 );
     
     void print() const;
-    int calculaAnoAtual() const;
-
-    int ano;
+    int getAno() const;
 
 private:
 
     int mes;
     int dia;
-    //int ano;
+    int ano;
     
     int VerificaDia( int ) const;
 
