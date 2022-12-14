@@ -22,7 +22,11 @@ Industrial::Industrial(string nome, string sobrenome, string sexo, string nacion
 Industrial::Industrial(const Industrial &outroIndustrial)
 :Empregador(outroIndustrial), contato(outroIndustrial.contato), nacionalidade(outroIndustrial.nacionalidade), anosDeContribuicao(outroIndustrial.anosDeContribuicao), numContratados(outroIndustrial.numContratados), vagas(outroIndustrial.vagas)
 {
-
+  nomeContratados.resize(outroIndustrial.nomeContratados.size());
+  
+	for(int i = 0; i < nomeContratados.size(); i++) {
+	  nomeContratados[i] = new string(*outroIndustrial.nomeContratados[i]);
+  }
 }
 
 Industrial::~Industrial()

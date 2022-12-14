@@ -36,7 +36,7 @@ int Inquilino::getTempoDeAluguel() const {
   return tempoDeAluguel;
 }
 
-int Inquilino::calculaAluguelFinal() const {
+float Inquilino::calculaAluguelFinal() const {
     return (aluguel * tempoDeAluguel);
 }
 
@@ -101,7 +101,7 @@ ostream &operator<<(ostream &out, const Inquilino &inquilino) {
 
   out << "Aluguel: R$" << inquilino.aluguel << "\n";
   out << "Tempo de aluguel: " << inquilino.tempoDeAluguel << " meses\n";
-  out << "Aluguel final: " <<inquilino.calculaAluguelFinal() << "\n";
+  out << "Aluguel final: R$" <<inquilino.calculaAluguelFinal() << "\n";
 
   return out;
 }

@@ -135,12 +135,10 @@ int main() {
   (inquilino2 = inquilino1);
   cout << "-> Analisando as informações após as mudanças\n";
   cout << *inquilino2 << "\n";
-  cout << " - Decrementando um mês de aluguel dos trabalhadores -\n";
+  cout << " - Decrementando um mês de aluguel do trabalhador 1 -\n";
   (!*inquilino1);
-  (!*inquilino2);
   cout << "-> Analisando as informações após as mudanças\n";
   cout << *inquilino1 << "\n";
-  cout << *inquilino2 << "\n";
 
   /*cout << "- Fazendo a comparação entre empregadores -\n";
   cout << "-> Rural 1 é igual ao Rural 2? " << (*rural1 == *rural2) << "\n";
@@ -154,6 +152,28 @@ int main() {
   cout << "-> Analisando as informações após as mudanças\n\n";
   cout << *rural1 << "\n";
   cout << *rural2 << "\n";*/
+
+  for(int i = 0 ; i < trabalhadores.size() ; i++) {
+        if(typeid(*trabalhadores[i]).name() == typeid(Proprietario).name()) {
+            Proprietario *proprietarioPtr = dynamic_cast <Proprietario *> (trabalhadores[i]);
+            cout << "Proprietario: " << proprietarioPtr->getNomeCompleto() << "\n";
+            proprietarioPtr->printCasasAlugadas();
+        }
+  }
+
+  vector <Trabalhador *>::iterator trabalhadoresItr = trabalhadores.begin();
+    for(int i = 0 ; i < trabalhadores.size() ; i++) {
+        trabalhadoresItr++;
+        delete trabalhadores[i];
+        trabalhadores.erase(trabalhadoresItr);
+    }
+
+  vector <Empregador *>::iterator empregadoresItr = empregadores.begin();
+    for(int i = 0 ; i < empregadores.size() ; i++) {
+        empregadoresItr++;
+        delete empregadores[i];
+        empregadores.erase(empregadoresItr);
+    }
 
   delete proprietario1;
   delete inquilino1;

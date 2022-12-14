@@ -17,7 +17,7 @@ class Inquilino:public Trabalhador {
 
         float getAluguel() const;
         int getTempoDeAluguel() const;
-        int calculaAluguelFinal() const;
+        float calculaAluguelFinal() const;
         void aposentar();
         int calculaAnosDeContribuicao();
 

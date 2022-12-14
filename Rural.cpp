@@ -22,7 +22,11 @@ Rural::Rural(string nome, string sobrenome, string sexo, string nacionalidade, s
 Rural::Rural(const Rural &outroRural)
 :Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade), anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
 {
-
+  contratados.resize(outroRural.contratados.size());
+  
+	for(int i = 0; i < contratados.size(); i++) {
+	  contratados[i] = new string(*outroRural.contratados[i]);
+  }
 }
 
 Rural::~Rural()
