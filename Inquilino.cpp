@@ -129,3 +129,15 @@ bool Inquilino::operator==(const Inquilino &outroInquilino) const {
 bool Inquilino::operator!=(const Inquilino &outroInquilino) const {
   return !(*this == outroInquilino);
 }
+
+Inquilino& Inquilino::operator=(const Inquilino &outroInquilino) {
+  *static_cast <Inquilino *> (this) = static_cast <Inquilino> (outroInquilino);
+
+  return *this;
+}
+
+Inquilino& Inquilino::operator!() {
+    this->tempoDeAluguel -= 1;
+
+    return *this;
+}

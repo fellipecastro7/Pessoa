@@ -8,19 +8,19 @@ using std::cin;
 const string Rural::AREADEATUACAO = "Agroeconomia";
 
 Rural::Rural()
-:anosDeContribuicao(0)/*, aposentado(false)*/, contato(""), nacionalidade(""), numContratados(0), vagas(0)
+:anosDeContribuicao(0), contato(""), nacionalidade(""), numContratados(0), vagas(0)
 {
 
 }
 
 Rural::Rural(string nome, string sobrenome, string sexo, string nacionalidade, string contato, const Data &dataOut)
-:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade)/*, aposentado(false)*/, contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
+:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade), contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
 {
 
 }
 
 Rural::Rural(const Rural &outroRural)
-:Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade)/*, aposentado(outroRural.aposentado)*/, anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
+:Empregador(outroRural), contato(outroRural.contato), nacionalidade(outroRural.nacionalidade), anosDeContribuicao(outroRural.anosDeContribuicao), numContratados(outroRural.numContratados), vagas(outroRural.vagas)
 {
 
 }
@@ -117,6 +117,7 @@ ostream &operator<<(ostream &out, const Rural &rural) {
     out << "Sexo: " << rural.getSexo() << "\n";
     out << "Idade: " << rural.calculaIdade() << " anos\n";
     out << "Nacionalidade: " << rural.nacionalidade << "\n";
+    out << "Número de contratados: " << rural.numContratados << "\n";
     out << "Anos de contribuição: " << rural.anosDeContribuicao << " anos\n";
     out << "Aposentado? " << (rural.getAposentado() ? "Sim" : "Não") << "\n";
 }
@@ -147,4 +148,16 @@ bool Rural::operator==(const Rural &outroRural) const {
 
 bool Rural::operator!=(const Rural &outroRural) const {
   return !(*this == outroRural);
+}
+
+Rural& Rural::operator=(const Rural &outroRural) {
+  *static_cast <Rural *> (this) = static_cast <Rural> (outroRural);
+
+  return *this;
+}
+
+Rural& Rural::operator!() {
+    this->numContratados -= 1;
+
+    return *this;
 }

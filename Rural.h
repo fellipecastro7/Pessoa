@@ -20,6 +20,8 @@ class Rural:public Empregador {
 
         bool operator==(const Rural &) const;
         bool operator!=(const Rural &) const;
+        Rural& operator=(const Rural &);
+        Rural& operator!();
 
     private:
         static const string AREADEATUACAO;
@@ -28,7 +30,6 @@ class Rural:public Empregador {
         vector <string *> contratados;
         int numContratados;
         int anosDeContribuicao;
-        //bool aposentado;
         int vagas;
 };
 

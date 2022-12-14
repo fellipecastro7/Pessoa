@@ -193,3 +193,15 @@ bool Proprietario::operator==(const Proprietario &outroProprietario) const {
 bool Proprietario::operator!=(const Proprietario &outroProprietario) const {
   return !(*this == outroProprietario);
 }
+
+Proprietario& Proprietario::operator=(const Proprietario &outroProprietario) {
+  *static_cast <Proprietario *> (this) = static_cast <Proprietario> (outroProprietario);
+
+  return *this;
+}
+
+Proprietario& Proprietario::operator!() {
+    this->numCasasPossuidas -= 1;
+
+    return *this;
+}

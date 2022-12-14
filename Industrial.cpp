@@ -8,19 +8,19 @@ using std::cin;
 const string Industrial::AREADEATUACAO = "Indústria";
 
 Industrial::Industrial()
-:anosDeContribuicao(0), aposentado(false), contato(""), nacionalidade(""), numContratados(0), vagas(0)
+:anosDeContribuicao(0), contato(""), nacionalidade(""), numContratados(0), vagas(0)
 {
 
 }
 
 Industrial::Industrial(string nome, string sobrenome, string sexo, string nacionalidade, string contato, const Data &dataOut)
-:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade), aposentado(false), contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
+:Empregador(nome, sobrenome, sexo, dataOut), nacionalidade(nacionalidade), contato(contato), anosDeContribuicao(0), numContratados(0), vagas(0)
 {
 
 }
 
 Industrial::Industrial(const Industrial &outroIndustrial)
-:Empregador(outroIndustrial), contato(outroIndustrial.contato), nacionalidade(outroIndustrial.nacionalidade), aposentado(outroIndustrial.aposentado), anosDeContribuicao(outroIndustrial.anosDeContribuicao), numContratados(outroIndustrial.numContratados), vagas(outroIndustrial.vagas)
+:Empregador(outroIndustrial), contato(outroIndustrial.contato), nacionalidade(outroIndustrial.nacionalidade), anosDeContribuicao(outroIndustrial.anosDeContribuicao), numContratados(outroIndustrial.numContratados), vagas(outroIndustrial.vagas)
 {
 
 }
@@ -30,16 +30,6 @@ Industrial::~Industrial()
   for(int i = 0; i < nomeContratados.size(); i++) {
 		delete nomeContratados[i];
   }
-}
-
-void Industrial::calculaAnosDeContribuicao(int idade1) {
-    if(idade1 < 18) {
-      anosDeContribuicao = 0;
-
-      return;
-    }
-
-    anosDeContribuicao = idade1 - 18;
 }
 
 void Industrial::printContratados() const {
@@ -68,23 +58,31 @@ void Industrial::aposentar() {
     }
 
     if(opcao == "n" || opcao == "N") {
-        aposentado = false;
+        setAposentado(false);
     }
 
     if(opcao == "S" || opcao == "s") {
-        if(calculaTempoDeTrabalho() < 15) {
+        if(calculaAnosDeContribuicao() < 15) {
             cout << "Não é possível se aposentar. Tempo de contribuição inferior a 15 anos\n";
-            aposentado = false;
+            setAposentado(false);
         }
 
         else {
-            cout << "Aposentado! tempo de contribuição: " << calculaTempoDeTrabalho() << " anos\n";
-            aposentado = true;
+            cout << "Aposentado! tempo de contribuição: " << calculaAnosDeContribuicao() << " anos\n";
+            setAposentado(true);
         }
     }
 }
 
-int Industrial::calculaTempoDeTrabalho() {
+int Industrial::calculaAnosDeContribuicao() {
+    if(calculaIdade() < 18) {
+      anosDeContribuicao = 0;
+
+      return 0;
+    }
+
+    anosDeContribuicao = calculaIdade() - 18;
+
     return anosDeContribuicao;
 }
 
@@ -119,8 +117,9 @@ ostream &operator<<(ostream &out, const Industrial &industrial) {
     out << "Sexo: " << industrial.getSexo() << "\n";
     out << "Idade: " << industrial.calculaIdade() << " anos\n";
     out << "Nacionalidade: " << industrial.nacionalidade << "\n";
+    out << "Número de contratados: " << industrial.numContratados << "\n";
     out << "Anos de contribuição: " << industrial.anosDeContribuicao << " anos\n";
-    out << "Aposentado? " << industrial.aposentado << "\n";
+    out << "Aposentado? " << (industrial.getAposentado() ? "Sim" : "Não") << "\n";
 }
 
 bool Industrial::operator==(const Industrial &outroIndustrial) const {
@@ -133,16 +132,6 @@ bool Industrial::operator==(const Industrial &outroIndustrial) const {
   }
 
   if(this->nomeContratados.size() != outroIndustrial.nomeContratados.size()) {
-    for(int i = 0; i < nomeContratados.size(); i++) {
-      if(this->nomeContratados[i] != outroIndustrial.nomeContratados[i]) {
-        return false;
-      }
-
-      else {
-        return true;
-      }
-    }
-
     return false;
   }
 
@@ -154,7 +143,7 @@ bool Industrial::operator==(const Industrial &outroIndustrial) const {
     return false;
   }
 
-  if(this->aposentado != outroIndustrial.aposentado) {
+  if(this->vagas != outroIndustrial.vagas) {
     return false;
   }
 
@@ -163,4 +152,16 @@ bool Industrial::operator==(const Industrial &outroIndustrial) const {
 
 bool Industrial::operator!=(const Industrial &outroIndustrial) const {
   return !(*this == outroIndustrial);
+}
+
+Industrial& Industrial::operator=(const Industrial &outroIndustrial) {
+  *static_cast <Industrial *> (this) = static_cast <Industrial> (outroIndustrial);
+
+  return *this;
+}
+
+Industrial& Industrial::operator!() {
+    this->numContratados -= 1;
+
+    return *this;
 }

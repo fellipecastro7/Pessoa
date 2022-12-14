@@ -23,6 +23,8 @@ class Inquilino:public Trabalhador {
 
         bool operator==(const Inquilino &) const;
         bool operator!=(const Inquilino &) const;
+        Inquilino& operator=(const Inquilino &);
+        Inquilino& operator!();
 
     private:
         float aluguel;

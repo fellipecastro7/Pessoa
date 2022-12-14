@@ -3,6 +3,12 @@
 
 #include "Empregador.h"
 
+#include <iostream>
+#include <vector>
+
+using std::vector;
+using std::ostream;
+
 class Industrial:public Empregador {
     friend ostream &operator<<(ostream &, const Industrial &);
 
@@ -12,15 +18,16 @@ class Industrial:public Empregador {
         Industrial(const Industrial &);
         ~Industrial();
         
-        void calculaAnosDeContribuicao(int);
         void printContratados() const;
         void aposentar();
-        int calculaTempoDeTrabalho();
+        int calculaAnosDeContribuicao();
         void contratar(string);
         void demitir(string);
 
         bool operator==(const Industrial &) const;
         bool operator!=(const Industrial &) const;
+        Industrial& operator=(const Industrial &);
+        Industrial& operator!();
 
     private:
         static const string AREADEATUACAO;
@@ -29,7 +36,6 @@ class Industrial:public Empregador {
         vector <string *> nomeContratados;
         int numContratados;
         int anosDeContribuicao;
-        bool aposentado;
         int vagas;
 };
 

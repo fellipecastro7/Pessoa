@@ -38,6 +38,8 @@ class Proprietario:public Trabalhador {
 
         bool operator==(const Proprietario &) const;
         bool operator!=(const Proprietario &) const;
+        Proprietario& operator=(const Proprietario &);
+        Proprietario& operator!();
 
     private:
         int numCasasPossuidas;

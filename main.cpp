@@ -12,6 +12,8 @@
 #include "Inquilino.cpp"
 #include "Rural.h"
 #include "Rural.cpp"
+#include "Industrial.h"
+#include "Industrial.cpp"
 
 #include <iostream>
 #include <windows.h>
@@ -51,7 +53,6 @@ int main() {
     proprietario1->setSalario(2200);
   }
 
-
   Inquilino *inquilino1 = new Inquilino("Raimundo", "Nonato", "Masculino", 700, 6, Data(2, 4, 2002));
   Inquilino *inquilino2 = new Inquilino("Tiririca", "Florentina", "Masculino", 650, 4, Data(7, 12, 1990));
 
@@ -65,8 +66,6 @@ int main() {
   cout << "\n" << *proprietario1 << "\n";
   proprietario1->printCasasAlugadas();
 
-  Rural *rural1 = new Rural("Otávio", "Oliveira", "Masculino", "Brasileira", "999999999", Data(19, 12, 1970));
-
   vector <Trabalhador *> trabalhadores;
   trabalhadores.push_back(new Proprietario(*proprietario1));
   trabalhadores.push_back(new Inquilino(*inquilino1));
@@ -77,6 +76,8 @@ int main() {
     cout << "Nome: " << trabalhador->getNomeCompleto() << "\n";
     cout << "Está aposentado? " << (trabalhador->getAposentado() ? "Sim" : "Não") << "\n";
   }
+
+  Rural *rural1 = new Rural("Otávio", "Oliveira", "Masculino", "Brasileira", "999999999", Data(19, 12, 1970));
 
   cout << *rural1 << "\n";
   rural1->printContratados();
